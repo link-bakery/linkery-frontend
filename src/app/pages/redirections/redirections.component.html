@@ -1,7 +1,7 @@
-<button nz-button nzType="primary" nzSize="default" nzShape="round" (click)="showModal()">
+<button nz-button nzType="primary" nzSize="default" nzShape="round" (click)="showModal()" class="add-button">
   <nz-icon nzType="plus" />
 </button>
-<nz-table [nzData]="redirections">
+<nz-table [nzData]="redirections()">
   <thead>
     <tr>
       <th>Link</th>
@@ -10,7 +10,7 @@
     </tr>
   </thead>
   <tbody>
-    @for (redirect of redirections; track $index) {
+    @for (redirect of redirections(); track $index) {
       <tr>
         <td>/{{ redirect.path }}</td>
         <td>https://{{ redirect.redirectTo }}</td>
@@ -18,7 +18,7 @@
           <button nz-button nzType="primary" nzSize="small" nzShape="round" (click)="showModal($index)">
             <nz-icon nzType="edit" />
           </button>
-          <button nz-button nzType="primary" nzSize="small" nzShape="round" nzDanger>
+          <button nz-button nzType="primary" nzSize="small" nzShape="round" (click)="delete($index)" nzDanger>
             <nz-icon nzType="delete" />
           </button>
         </td>

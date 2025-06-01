@@ -1,0 +1,15 @@
+<nz-modal [nzVisible]="true" nzTitle="Login">
+  <ng-container *nzModalContent>
+    <label for="username">Username</label>
+    <nz-input-group>
+      <input type="text" nz-input name="username" [(ngModel)]="username" />
+    </nz-input-group>
+    <label for="password">Password</label>
+    <nz-input-group>
+      <input type="password" nz-input name="password" [(ngModel)]="password" autofocus />
+    </nz-input-group>
+  </ng-container>
+  <ng-container *nzModalFooter>
+    <button nz-button nzType="primary" (click)="login()">Login</button>
+  </ng-container>
+</nz-modal>
