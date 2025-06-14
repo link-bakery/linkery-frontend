@@ -7,7 +7,7 @@ export const coreInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
 
   const newReq = req.clone({
-    url: `http://${environment.backendHost}/__api/` + req.url,
+    url: `${environment.backendHost}/__api/` + req.url,
     headers: req.headers.set('authorization', `Bearer ${authService.token()}`),
   })
   return next(newReq);
