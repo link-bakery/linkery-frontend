@@ -9,6 +9,6 @@ export const coreInterceptor: HttpInterceptorFn = (req, next) => {
   const newReq = req.clone({
     url: `${environment.backendHost}/__api/` + req.url,
     headers: req.headers.set('authorization', `Bearer ${authService.token()}`),
-  })
+  });
   return next(newReq);
 };
