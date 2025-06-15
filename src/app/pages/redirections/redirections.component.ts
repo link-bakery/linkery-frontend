@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { RedirectionsService } from './redirections.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-welcome',
@@ -57,7 +58,7 @@ export class RedirectionsComponent {
   }
 
   getPathOrigin() {
-    return location.origin;
+    return environment.backendHost || location.origin;
   }
 
   async delete(i: number) {
