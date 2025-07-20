@@ -1,5 +1,5 @@
 <button nz-button nzType="primary" nzSize="default" nzShape="round" (click)="showModal()" class="add-button">
-  <nz-icon nzType="plus" />
+  <nz-icon nzType="plus" nz-popover nzPopoverContent="Add redirection" />
 </button>
 <nz-table [nzData]="redirections()">
   <thead>
@@ -12,13 +12,20 @@
   <tbody>
     @for (redirect of redirections(); track $index) {
       <tr>
-        <td>/{{ redirect.path }}</td>
+        <td>
+          <a [href]="getFullRedirectLink(redirect.path)" target="_blank">
+            /{{ redirect.path }}
+          </a>
+        </td>
         <td>https://{{ redirect.redirectTo }}</td>
         <td class="action-buttons">
-          <button nz-button nzType="primary" nzSize="small" nzShape="round" (click)="showModal($index)">
+          <button nz-button nzType="primary" nzSize="small" nzShape="round" nz-popover nzPopoverContent="Copy link" (click)="copy(getFullRedirectLink(redirect.path))">
+            <nz-icon nzType="copy" />
+          </button>
+          <button nz-button nzType="primary" nzSize="small" nzShape="round" nz-popover nzPopoverContent="Edit" (click)="showModal($index)">
             <nz-icon nzType="edit" />
           </button>
-          <button nz-button nzType="primary" nzSize="small" nzShape="round" (click)="delete($index)" nzDanger>
+          <button nz-button nzType="primary" nzSize="small" nzShape="round" nz-popover nzPopoverContent="Delete" (click)="delete($index)" nzDanger>
             <nz-icon nzType="delete" />
           </button>
         </td>

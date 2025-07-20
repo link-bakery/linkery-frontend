@@ -10,16 +10,19 @@ import { RedirectionsService } from './redirections.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { firstValueFrom } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzPopoverModule } from 'ng-zorro-antd/popover';
 
 @Component({
   selector: 'app-welcome',
   templateUrl: './redirections.component.html',
   styleUrl: './redirections.component.scss',
-  imports: [NzTableModule, NzIconModule, NzButtonModule, NzModalModule, NzInputModule, FormsModule],
+  imports: [NzTableModule, NzIconModule, NzButtonModule, NzModalModule, NzInputModule, FormsModule, NzPopoverModule],
 })
 export class RedirectionsComponent {
   redirectionsService = inject(RedirectionsService);
   private injector = inject(Injector);
+  private messageService: NzMessageService = inject(NzMessageService);
 
   isVisible = false;
   path: string = '';
@@ -59,6 +62,15 @@ export class RedirectionsComponent {
 
   getPathOrigin() {
     return environment.backendHost || location.origin;
+  }
+
+  getFullRedirectLink(path: string) {
+    return this.getPathOrigin() + '/' + path;
+  }
+
+  copy(text: string) {
+    this.messageService.success('Copied redirection!');
+    navigator.clipboard.writeText(text);
   }
 
   async delete(i: number) {
