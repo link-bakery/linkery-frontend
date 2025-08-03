@@ -25,18 +25,20 @@ export class RedirectionsComponent {
   private messageService: NzMessageService = inject(NzMessageService);
 
   isVisible = false;
-  path: string = '';
-  redirectTo: string = '';
-  modalTitle: string = 'Create a new redirection';
+  id: Redirect['id'];
+  path: Redirect['path'] = '';
+  redirectTo: Redirect['redirectTo'] = '';
+  isEditModal: boolean = false; // false: creates a new redirection, true: edits a new redirection
   redirections: Signal<Redirect[]> = toSignal(this.redirectionsService.getRedirections(), {
     initialValue: [],
   });
 
   showModal(i?: number): void {
-    this.modalTitle = 'Create a new redirection';
+    this.isEditModal = false;
     this.isVisible = true;
     if (i !== undefined) {
-      this.modalTitle = 'Edit redirection';
+      this.isEditModal = true;
+      this.id = this.redirections()[i].id;
       this.path = this.redirections()[i].path;
       this.redirectTo = this.redirections()[i].redirectTo;
     }
@@ -44,11 +46,17 @@ export class RedirectionsComponent {
 
   async handleOk() {
     this.isVisible = false;
-    await firstValueFrom(this.redirectionsService.deleteRedirection(this.path));
-    await firstValueFrom(this.redirectionsService.saveRedirection({
-      path: this.path,
-      redirectTo: this.redirectTo,
-    }));
+    if (this.isEditModal) {
+      await firstValueFrom(this.redirectionsService.editRedirection(this.id, {
+        path: this.path,
+        redirectTo: this.redirectTo,
+      }));
+    } else {
+      await firstValueFrom(this.redirectionsService.saveRedirection({
+        path: this.path,
+        redirectTo: this.redirectTo,
+      }));
+    }
     this.updateRedirections();
     this.path = '';
     this.redirectTo = '';
@@ -75,7 +83,10 @@ export class RedirectionsComponent {
 
   async delete(i: number) {
     const redirect = this.redirections()[i];
-    await firstValueFrom(this.redirectionsService.deleteRedirection(redirect.path));
+    if (redirect === undefined || redirect.id === undefined) {
+      return;
+    }
+    await firstValueFrom(this.redirectionsService.deleteRedirection(redirect.id));
     this.updateRedirections();
   }
 

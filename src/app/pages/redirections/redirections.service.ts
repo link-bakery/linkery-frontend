@@ -17,11 +17,11 @@ export class RedirectionsService {
     return this.http.post<Redirect>('admin/redirect', redirect);
   }
 
-  deleteRedirection(path: string) {
-    return this.http.delete<void>('admin/redirect', {
-      body: {
-        path,
-      }
-    });
+  editRedirection(id: Redirect['id'], redirect: Redirect) {
+    return this.http.put<Redirect>(`admin/redirect/${id}`, redirect);
+  }
+
+  deleteRedirection(id: number) {
+    return this.http.delete<void>(`admin/redirect/${id}`);
   }
 }

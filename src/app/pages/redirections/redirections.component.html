@@ -34,7 +34,7 @@
   </tbody>
 </nz-table>
 
-<nz-modal [(nzVisible)]="isVisible" [nzTitle]="modalTitle" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+<nz-modal [(nzVisible)]="isVisible" [nzTitle]="isEditModal ? 'Edit redirection' : 'Create a new redirection'" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
   <ng-container *nzModalContent>
     <label for="path">Path</label>
     <nz-input-group [nzAddOnBefore]="getPathOrigin() + '/'">
